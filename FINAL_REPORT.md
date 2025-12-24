@@ -61,7 +61,7 @@ PCA revealed clear separation into two clusters along PC1 (25.0% variance explai
 - DSG1, DSG3, PKP1, DSC2, DSC3 (desmosomes)
 - SPRR1A, SPRR1B, SPRR2A (cornified envelope)
 
-This was interesting - all the top genes were related to epithelial structure and barrier function.
+All top genes were related to epithelial structure and barrier function, indicating a coordinated biological response.
 
 **Key visualization:** `output/population_analysis/feature_importance/feature_importance_top_genes.png`
 

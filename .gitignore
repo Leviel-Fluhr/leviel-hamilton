@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+
+# Virtual environment
+.venv/
+venv/
+ENV/
+# Use shared workspace venv instead
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Output and cache
+output/cache/*.parquet
+output/*.png
+output/*.csv
+output/*.xlsx
+*.log
+
+# Data (if sensitive)
+# input/*.csv
+# input/*.xlsx
+# input/*.tsv
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Ruff cache
+.ruff_cache/

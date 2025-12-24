@@ -1,7 +1,7 @@
 # RNA-seq Drug Screening Analysis: Final Report
 
 **Hamilton Interview Exercise**  
-**Date:** January 2025  
+**Date:** December 2025  
 **Dataset:** RNA-seq gene expression from ADC and free drug screening on skin organoids
 
 ---
@@ -442,6 +442,6 @@ All outputs are saved to:
 
 ---
 
-**Report Generated:** January 2025  
+**Report Generated:** December 2025  
 **Analysis Framework:** Hamilton DAG  
 **Workspace:** Analyses/hamilton-interview

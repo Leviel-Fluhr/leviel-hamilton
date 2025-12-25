@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Create professional summary visualization showing the analysis pathway.
-Uses pastel colors and clean design.
+Improved visual design with better spacing, colors, and layout.
 """
 
 import sys
@@ -21,7 +21,7 @@ logger, config = quick_debug_setup(__name__)
 
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Rectangle
+from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Rectangle, Circle
 import numpy as np
 
 PROJECT_ROOT = Path(__file__).parent.parent.parent
@@ -30,203 +30,209 @@ OUTPUT_DIR = PROJECT_ROOT / "output"
 
 def create_summary_visualization() -> Path:
     """
-    Create a professional summary visualization with pastel colors and clean design.
+    Create a professional summary visualization with improved visual design.
     
     This visualization shows:
     - The 4-step analysis journey
     - Key visualizations that guided the investigation
     - The final conclusion
     """
-    animator.show_info("Creating professional analysis pathway summary visualization with pastel colors...")
+    animator.show_info("Creating improved professional analysis pathway summary visualization...")
     
     # Create figure with better proportions
-    fig = plt.figure(figsize=(18, 11))
+    fig = plt.figure(figsize=(20, 12))
     ax = fig.add_subplot(111)
     ax.set_xlim(0, 10)
     ax.set_ylim(0, 8)
     ax.axis('off')
     
-    # Set background color - soft white/cream
-    fig.patch.set_facecolor('#FEFEFE')
-    ax.set_facecolor('#FEFEFE')
+    # Set background color - soft white
+    fig.patch.set_facecolor('#FFFFFF')
+    ax.set_facecolor('#FFFFFF')
     
-    # Title section - softer colors
-    title_y = 7.2
-    ax.text(5, 7.5, 'RNA-seq Analysis: From Exploration to Biological Insight', 
-            ha='center', va='top', fontsize=20, fontweight='bold', 
-            color='#2C3E50', family='sans-serif')
-    ax.text(5, 7.0, 'Analysis Pathway and Key Findings', 
-            ha='center', va='top', fontsize=14, style='italic', 
-            color='#7F8C8D', family='sans-serif')
+    # Title section - improved typography
+    title_y = 7.3
+    ax.text(5, 7.6, 'RNA-seq Analysis: From Exploration to Biological Insight', 
+            ha='center', va='top', fontsize=22, fontweight='bold', 
+            color='#1A1A1A', family='sans-serif')
+    ax.text(5, 7.1, 'Evidence-Based Analysis Pathway and Key Findings', 
+            ha='center', va='top', fontsize=15, style='italic', 
+            color='#5A5A5A', family='sans-serif')
     
-    # Step boxes - pastel color scheme
-    step_y = 5.2
-    step_height = 1.4
-    step_width = 1.9
-    step_spacing = 0.3
+    # Step boxes - improved design with better spacing
+    step_y = 5.4
+    step_height = 1.5
+    step_width = 2.1
+    step_spacing = 0.25
     
-    # Pastel color scheme - soft and clean
+    # Refined color scheme - more professional
     step_colors = {
-        1: {'face': '#E8F4F8', 'edge': '#85C1E2', 'text': '#2874A6', 'badge': '#5DADE2'},  # Soft blue
-        2: {'face': '#E8F8E8', 'edge': '#82E0AA', 'text': '#27AE60', 'badge': '#52BE80'},  # Soft green
-        3: {'face': '#FFF8E7', 'edge': '#F7DC6F', 'text': '#D68910', 'badge': '#F4D03F'},  # Soft yellow
-        4: {'face': '#FADBD8', 'edge': '#F1948A', 'text': '#C0392B', 'badge': '#E74C3C'}  # Soft pink/rose
+        1: {'face': '#E3F2FD', 'edge': '#2196F3', 'text': '#1565C0', 'badge': '#1976D2', 'accent': '#BBDEFB'},  # Blue
+        2: {'face': '#E8F5E9', 'edge': '#4CAF50', 'text': '#2E7D32', 'badge': '#388E3C', 'accent': '#C8E6C9'},  # Green
+        3: {'face': '#FFF9E6', 'edge': '#FFC107', 'text': '#F57C00', 'badge': '#FFA000', 'accent': '#FFECB3'},  # Amber
+        4: {'face': '#FCE4EC', 'edge': '#E91E63', 'text': '#C2185B', 'badge': '#C2185B', 'accent': '#F8BBD0'}  # Pink
     }
     
     steps = [
-        (1, 'Exploration', 'PCA Analysis', 'Found 2 clusters', 0.6),
-        (2, 'Hypothesis', 'Population', 'Separation?', 2.8),
-        (3, 'Validation', 'Stats + Pathways', '970 genes sig', 5.0),
-        (4, 'Conclusion', 'Epithelial', 'Stress Response', 7.2)
+        (1, 'Exploration', 'Both Datasets', 'RNA-seq: clear lead', 0.4),
+        (2, 'Hypothesis', 'Population', 'Separation?', 2.75),
+        (3, 'Validation', 'Stats + Pathways', '970 genes sig', 5.1),
+        (4, 'Conclusion', 'Epithelial', 'Stress Response', 7.45)
     ]
     
     step_boxes = []
     for step_num, title, line1, line2, x_pos in steps:
         colors = step_colors[step_num]
-        # Softer rounded box
+        
+        # Main box with subtle shadow effect
         box = FancyBboxPatch(
             (x_pos, step_y), step_width, step_height,
-            boxstyle="round,pad=0.2", 
+            boxstyle="round,pad=0.25", 
             facecolor=colors['face'],
             edgecolor=colors['edge'],
-            linewidth=2.0,
-            alpha=0.9
+            linewidth=2.5,
+            alpha=0.95
         )
         ax.add_patch(box)
         step_boxes.append((box, x_pos + step_width/2))
         
-        # Step number badge - softer
-        badge = plt.Circle((x_pos + 0.25, step_y + step_height - 0.25), 0.22, 
-                          facecolor=colors['badge'], edgecolor='white', linewidth=2, zorder=10, alpha=0.95)
+        # Accent bar at top
+        accent_bar = Rectangle((x_pos, step_y + step_height - 0.2), step_width, 0.2,
+                              facecolor=colors['accent'], edgecolor='none', zorder=1, alpha=0.8)
+        ax.add_patch(accent_bar)
+        
+        # Step number badge - improved design
+        badge = Circle((x_pos + 0.3, step_y + step_height - 0.3), 0.25, 
+                      facecolor=colors['badge'], edgecolor='white', linewidth=2.5, zorder=10)
         ax.add_patch(badge)
-        ax.text(x_pos + 0.25, step_y + step_height - 0.25, str(step_num), 
-               ha='center', va='center', fontsize=13, fontweight='bold', 
+        ax.text(x_pos + 0.3, step_y + step_height - 0.3, str(step_num), 
+               ha='center', va='center', fontsize=14, fontweight='bold', 
                color='white', zorder=11)
         
         # Step title
-        ax.text(x_pos + step_width/2, step_y + step_height - 0.5, title, 
-               ha='center', va='center', fontsize=13, fontweight='bold',
+        ax.text(x_pos + step_width/2, step_y + step_height - 0.55, title, 
+               ha='center', va='center', fontsize=14, fontweight='bold',
                color=colors['text'], family='sans-serif')
         
-        # Step content
-        ax.text(x_pos + step_width/2, step_y + step_height - 0.85, line1, 
-               ha='center', va='center', fontsize=10,
-               color='#34495E', family='sans-serif')
-        ax.text(x_pos + step_width/2, step_y + step_height - 1.15, line2, 
-               ha='center', va='center', fontsize=9, style='italic',
-               color='#7F8C8D', family='sans-serif')
+        # Step content - improved spacing
+        ax.text(x_pos + step_width/2, step_y + step_height - 0.9, line1, 
+               ha='center', va='center', fontsize=11,
+               color='#2C3E50', family='sans-serif', fontweight='medium')
+        ax.text(x_pos + step_width/2, step_y + step_height - 1.2, line2, 
+               ha='center', va='center', fontsize=10, style='italic',
+               color='#5A5A5A', family='sans-serif')
     
-    # Arrows between steps - softer pastel gray
+    # Arrows between steps - improved design
     arrow_y = step_y + step_height/2
     for i in range(len(steps) - 1):
         x_start = steps[i][4] + step_width
         x_end = steps[i+1][4]
         arrow = FancyArrowPatch(
-            (x_start, arrow_y), (x_end, arrow_y),
-            arrowstyle='->', mutation_scale=22, 
-            linewidth=2.5, color='#BDC3C7',
-            zorder=5, alpha=0.7
+            (x_start + 0.05, arrow_y), (x_end - 0.05, arrow_y),
+            arrowstyle='->', mutation_scale=25, 
+            linewidth=3, color='#90A4AE',
+            zorder=5, alpha=0.8,
+            connectionstyle="arc3,rad=0"
         )
         ax.add_patch(arrow)
     
-    # Key Visualizations section - pastel colors
-    viz_section_y = 3.2
-    ax.text(5, 3.8, 'Key Visualizations That Guided the Investigation', 
-            ha='center', va='center', fontsize=13, fontweight='bold',
-            color='#34495E', family='sans-serif')
+    # Key Visualizations section - improved design
+    viz_section_y = 3.4
+    ax.text(5, 3.95, 'Key Visualizations That Guided the Investigation', 
+            ha='center', va='center', fontsize=14, fontweight='bold',
+            color='#1A1A1A', family='sans-serif')
     
-    viz_y = 2.3
-    viz_height = 0.9
-    viz_width = 2.1
-    viz_spacing = 0.25
+    viz_y = 2.4
+    viz_height = 1.0
+    viz_width = 1.75
+    viz_spacing = 0.15
     
-    # Pastel visualization colors
+    # Refined visualization colors
     visualizations = [
-        ('PCA Plot', 'Showed clear', '2 populations', '#AED6F1', '#3498DB', 0.5),  # Soft blue
-        ('Volcano Plot', 'Statistical', 'validation', '#F5B7B1', '#E74C3C', 2.9),  # Soft red
-        ('Pathway', 'Biological', 'validation', '#A9DFBF', '#27AE60', 5.3),  # Soft green
-        ('Top Genes', 'Keratin genes', 'identified', '#F9E79F', '#F39C12', 7.7)  # Soft orange
+        ('RNA-seq PCA', 'Clear structure', '2 populations', '#2196F3', '#E3F2FD', 0.25),  # Blue
+        ('Diabetes PCA', 'No clear lead', 'Diffuse pattern', '#E91E63', '#FCE4EC', 2.15),  # Pink
+        ('Volcano Plot', 'Statistical', 'validation', '#FF5722', '#FFEBEE', 4.05),  # Deep orange
+        ('Pathway', 'Biological', 'validation', '#4CAF50', '#E8F5E9', 5.95),  # Green
+        ('Top Genes', 'Keratin genes', 'identified', '#FF9800', '#FFF3E0', 7.85)  # Orange
     ]
     
-    for viz_title, line1, line2, pastel_color, accent_color, x_pos in visualizations:
-        # Main box - very soft pastel
+    for viz_title, line1, line2, accent_color, pastel_color, x_pos in visualizations:
+        # Main box with improved design
         viz_box = FancyBboxPatch(
             (x_pos, viz_y), viz_width, viz_height,
-            boxstyle="round,pad=0.15",
+            boxstyle="round,pad=0.18",
             facecolor='white',
-            edgecolor=pastel_color,
-            linewidth=2.0,
-            alpha=0.95
+            edgecolor=accent_color,
+            linewidth=2.5,
+            alpha=0.98
         )
         ax.add_patch(viz_box)
         
-        # Pastel accent bar at top
-        accent = Rectangle((x_pos, viz_y + viz_height - 0.15), viz_width, 0.15,
-                          facecolor=pastel_color, edgecolor='none', zorder=1, alpha=0.6)
+        # Accent bar at top - more prominent
+        accent = Rectangle((x_pos, viz_y + viz_height - 0.18), viz_width, 0.18,
+                          facecolor=pastel_color, edgecolor='none', zorder=1, alpha=0.7)
         ax.add_patch(accent)
         
-        # Title
-        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.35, viz_title,
-               ha='center', va='center', fontsize=11, fontweight='bold',
+        # Title - improved typography
+        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.4, viz_title,
+               ha='center', va='center', fontsize=12, fontweight='bold',
                color=accent_color, family='sans-serif')
         
-        # Content lines
-        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.6, line1,
-               ha='center', va='center', fontsize=9,
-               color='#34495E', family='sans-serif')
-        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.8, line2,
-               ha='center', va='center', fontsize=8, style='italic',
-               color='#7F8C8D', family='sans-serif')
+        # Content lines - better spacing
+        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.65, line1,
+               ha='center', va='center', fontsize=10, fontweight='medium',
+               color='#2C3E50', family='sans-serif')
+        ax.text(x_pos + viz_width/2, viz_y + viz_height - 0.85, line2,
+               ha='center', va='center', fontsize=9, style='italic',
+               color='#5A5A5A', family='sans-serif')
     
-    # Key Finding section - soft pastel design
-    finding_y = 0.4
-    finding_height = 1.0
-    finding_width = 9.0
-    finding_x = 0.5
+    # Key Finding section - improved design
+    finding_y = 0.3
+    finding_height = 1.1
+    finding_width = 9.2
+    finding_x = 0.4
     
-    # Soft pastel finding box
+    # Main finding box with gradient effect
     finding_box = FancyBboxPatch(
         (finding_x, finding_y), finding_width, finding_height,
-        boxstyle="round,pad=0.2",
-        facecolor='#FEF5E7',  # Very soft cream/peach
-        edgecolor='#F8C471',
-        linewidth=2.5,
-        alpha=0.95
+        boxstyle="round,pad=0.25",
+        facecolor='#FFF8E1',  # Soft amber
+        edgecolor='#FFC107',
+        linewidth=3,
+        alpha=0.98
     )
     ax.add_patch(finding_box)
     
-    # Soft pastel header bar
-    header_bar = Rectangle((finding_x, finding_y + finding_height - 0.2), 
-                          finding_width, 0.2,
-                          facecolor='#F8C471', edgecolor='none', zorder=1, alpha=0.7)
+    # Header bar - more prominent
+    header_bar = Rectangle((finding_x, finding_y + finding_height - 0.25), 
+                          finding_width, 0.25,
+                          facecolor='#FFC107', edgecolor='none', zorder=1, alpha=0.85)
     ax.add_patch(header_bar)
     
-    # Key Finding title
-    ax.text(finding_x + finding_width/2, finding_y + finding_height - 0.1,
+    # Key Finding title - improved
+    ax.text(finding_x + finding_width/2, finding_y + finding_height - 0.12,
            'Key Finding',
-           ha='center', va='center', fontsize=15, fontweight='bold',
-           color='#7D6608', family='sans-serif', zorder=2)
+           ha='center', va='center', fontsize=16, fontweight='bold',
+           color='#E65100', family='sans-serif', zorder=2)
     
-    # Main finding text
+    # Main finding text - improved typography
     ax.text(finding_x + finding_width/2, finding_y + finding_height - 0.5,
            'Two populations separated by epithelial activation',
-           ha='center', va='center', fontsize=13, fontweight='bold',
-           color='#2C3E50', family='sans-serif')
+           ha='center', va='center', fontsize=14, fontweight='bold',
+           color='#1A1A1A', family='sans-serif')
     
-    # Sub-finding text
-    ax.text(finding_x + finding_width/2, finding_y + finding_height - 0.75,
+    # Sub-finding text - improved
+    ax.text(finding_x + finding_width/2, finding_y + finding_height - 0.8,
            'ADCs/Free drugs induce keratinization stress response',
-           ha='center', va='center', fontsize=11, style='italic',
-           color='#566573', family='sans-serif')
-    
-    # Remove grid lines for cleaner look
+           ha='center', va='center', fontsize=12, style='italic',
+           color='#424242', family='sans-serif')
     
     plt.tight_layout()
     
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     output_path = OUTPUT_DIR / "analysis_pathway_summary.png"
-    plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='#FEFEFE', 
-                edgecolor='none', pad_inches=0.2)
+    plt.savefig(output_path, dpi=300, bbox_inches='tight', facecolor='#FFFFFF', 
+                edgecolor='none', pad_inches=0.25)
     plt.close()
     
     animator.show_file_operation("Saved improved analysis pathway summary", str(output_path))

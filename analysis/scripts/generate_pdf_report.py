@@ -143,8 +143,10 @@ def generate_pdf_report():
     if summary_viz_path and summary_viz_path.exists():
         story.append(Paragraph("Analysis Pathway Summary", heading_style))
         story.append(Paragraph(
-            "The analysis journey progressed from initial exploration through hypothesis formation, statistical validation, "
-            "and biological interpretation. The key visualizations that guided the investigation are highlighted below.",
+            "The analysis began with comprehensive exploration of both datasets. Evidence-based evaluation showed RNA-seq "
+            "exhibited clear structure (70.7% PC1 variance) while diabetes showed no clear patterns (14.1% PC1 variance). "
+            "This led to focusing on RNA-seq for detailed investigation. The journey then progressed through hypothesis "
+            "formation, statistical validation, and biological interpretation.",
             styles['Normal']
         ))
         story.append(Spacer(1, 0.1*inch))
@@ -157,13 +159,43 @@ def generate_pdf_report():
     
     # Add ALL figures with article-style explanations
     figure_data = [
-        ("Principal Component Analysis", 
+        ("RNA-seq Principal Component Analysis", 
          OUTPUT_DIR / "exploratory" / "pca_plot.png",
-         "Principal Component Analysis revealed clear separation into two clusters along PC1 (25.0% variance explained). "
-         "This was the first indication that the samples formed distinct populations. The separation did not immediately "
-         "align with compound categories, raising questions about the underlying biological drivers of this pattern. "
-         "PC2 explains an additional 10.4% of variance, further supporting the presence of two distinct groups."),
+         "Principal Component Analysis of the RNA-seq dataset revealed clear separation into two clusters along PC1 "
+         "(25.0% variance explained, 70.7% total PC1 variance). This was the first indication that the samples formed "
+         "distinct populations with strong underlying structure. The separation did not immediately align with compound "
+         "categories, raising questions about the underlying biological drivers of this pattern. PC2 explains an additional "
+         "10.4% of variance, further supporting the presence of two distinct groups."),
         
+        ("Diabetes Dataset Exploration", 
+         OUTPUT_DIR / "diabetes_exploratory" / "diabetes_pca_plot.png",
+         "Principal Component Analysis of the diabetes dataset (101,766 patient encounters, 50 features) revealed a "
+         "diffuse cloud with no clear structure. PC1 variance explained was 14.1%, substantially lower than RNA-seq "
+         "(70.7%). The plot shows diabetes data colored by readmission status (left) and time in hospital (right), "
+         "demonstrating the lack of clear population separation observed in the RNA-seq dataset. This evidence indicated "
+         "the diabetes dataset did not show promising patterns for population-level analysis."),
+        
+        ("Dataset Comparison Analysis", 
+         OUTPUT_DIR / "diabetes_exploratory" / "dataset_comparison.png",
+         "Statistical comparison between RNA-seq and diabetes datasets. Correlation analysis showed weak, non-significant "
+         "correlations (PC1: r=-0.077, p=0.589; PC2: r=0.062, p=0.662). Variance explained comparison confirmed RNA-seq "
+         "exhibited substantially more structure (70.7% vs 14.1% for PC1). This evidence-based evaluation justified "
+         "focusing detailed investigation on the RNA-seq dataset, which showed clearer patterns for population-level analysis."),
+    ]
+    
+    # Add transition paragraph after diabetes comparison
+    story.append(Spacer(1, 0.2*inch))
+    story.append(Paragraph(
+        "<b>Analysis Focus:</b> Based on the evidence-based evaluation above, all subsequent analysis focuses exclusively "
+        "on the RNA-seq dataset. The following visualizations and results are derived from the RNA-seq gene expression data, "
+        "as it demonstrated clear population structure and promising patterns for detailed investigation.",
+        styles['Normal']
+    ))
+    story.append(Spacer(1, 0.3*inch))
+    story.append(PageBreak())
+    
+    # Continue with RNA-seq analysis figures
+    rna_figure_data = [
         ("Sample Correlation Matrix", 
          OUTPUT_DIR / "exploratory" / "correlation_heatmap.png",
          "The sample correlation matrix shows high correlation within each population, confirming the clustering observed "
@@ -217,7 +249,37 @@ def generate_pdf_report():
          "in Population 2, supporting the biological interpretation of baseline versus stress response states."),
     ]
     
+    # First, add diabetes comparison figures
     for title, fig_path, explanation in figure_data:
+        if fig_path.exists():
+            story.append(Paragraph(title, heading_style))
+            # Clean explanation and make article-style
+            explanation_clean = explanation.replace('&lt;', '<').replace('&gt;', '>')
+            story.append(Paragraph(explanation_clean, styles['Normal']))
+            story.append(Spacer(1, 0.15*inch))
+            
+            # Get actual dimensions preserving aspect ratio
+            img_width, img_height = get_image_dimensions(fig_path, max_width=7.0)
+            img = Image(str(fig_path), width=img_width*inch, height=img_height*inch)
+            story.append(img)
+            story.append(Spacer(1, 0.3*inch))
+            story.append(PageBreak())
+    
+    # Add clear transition statement after diabetes comparison
+    story.append(Paragraph("RNA-seq Analysis: Detailed Investigation", heading_style))
+    story.append(Paragraph(
+        "<b>Analysis Focus:</b> Based on the evidence-based evaluation above, all subsequent analysis focuses exclusively "
+        "on the RNA-seq dataset. The following visualizations and results are derived from the RNA-seq gene expression data, "
+        "as it demonstrated clear population structure (70.7% PC1 variance) and promising patterns for detailed investigation. "
+        "The diabetes dataset, while valuable for clinical insights, did not exhibit the same level of structured patterns "
+        "that would enable population-level analysis.",
+        styles['Normal']
+    ))
+    story.append(Spacer(1, 0.3*inch))
+    story.append(PageBreak())
+    
+    # Continue with RNA-seq analysis figures
+    for title, fig_path, explanation in rna_figure_data:
         if fig_path.exists():
             story.append(Paragraph(title, heading_style))
             # Clean explanation and make article-style

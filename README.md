@@ -30,6 +30,7 @@ This project presents a comprehensive analysis of RNA-seq gene expression data f
 - Principal Component Analysis revealing two distinct clusters
 - Sample correlation matrix showing population structure
 - Compound expression comparison across treatments
+- Diabetes dataset exploration and comparison with RNA-seq
 
 ### 2. Population Analysis
 - Differential expression analysis (970 significant genes)
@@ -42,7 +43,7 @@ This project presents a comprehensive analysis of RNA-seq gene expression data f
 - Biological validation through literature search
 
 ### 4. Visualization
-- 9 publication-quality figures
+- 11 publication-quality figures (including diabetes comparison)
 - Analysis pathway summary diagram
 - Professional PDF report
 

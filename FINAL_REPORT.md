@@ -26,20 +26,53 @@ The separation is driven by **epithelial activation and keratinization pathways*
 
 ## Analysis Journey
 
-### Step 1: Exploratory Data Analysis
+### Step 1: Exploratory Data Analysis and Dataset Evaluation
 
 **Approach:**
+The analysis began with comprehensive exploration of both available datasets to identify which showed the most promising patterns for population-level investigation.
+
+**RNA-seq Dataset Exploration:**
 - Loaded 78,932 genes × 52 samples from Salmon quantification
 - Performed PCA to reduce dimensionality
 - Calculated sample-to-sample correlation
 - Compared expression across compounds
 
-**Key Discovery:**
-PCA revealed clear separation into two clusters along PC1 (25.0% variance explained). The PCA plot showed distinct clustering that did not immediately align with compound type, raising questions about the underlying biological drivers of this pattern.
+**Diabetes Dataset Exploration:**
+- Analyzed the diabetes dataset (101,766 patient encounters, 50 features) using PCA
+- Preprocessed data: handled missing values, encoded categorical variables, selected numeric features
+- Performed PCA to assess dataset structure
+- Compared with RNA-seq dataset using correlation analysis and variance explained metrics
 
-**Key visualization:** `output/exploratory/pca_plot.png`
+**Key Findings:**
 
-### Step 2: Hypothesis Formation
+**RNA-seq Dataset:**
+- PCA revealed clear separation into two clusters along PC1 (25.0% variance explained)
+- PC1 variance explained: 70.7% (high structure, clear patterns)
+- Distinct clustering visible that did not immediately align with compound type
+- Sample correlation matrix showed clear population structure
+
+**Diabetes Dataset:**
+- PCA revealed a diffuse cloud with no clear structure (PC1 variance explained: 14.1%)
+- Weak correlations with RNA-seq principal components (PC1: r=-0.077, p=0.589; PC2: r=0.062, p=0.662)
+- Correlations not statistically significant (p > 0.05)
+- Substantially lower variance explained compared to RNA-seq (14.1% vs 70.7% for PC1)
+
+**Evidence-Based Decision:**
+The RNA-seq dataset exhibited clear population separation with high variance explained (70.7%), while the diabetes dataset showed diffuse structure with no clear patterns (14.1% variance explained). Statistical validation confirmed weak, non-significant correlations between datasets. Based on this evidence, the analysis focused on the RNA-seq dataset for detailed investigation, as it showed substantially more promising patterns for population-level analysis.
+
+**Key visualizations:**
+- `output/exploratory/pca_plot.png` - RNA-seq PCA showing two populations
+- `output/diabetes_exploratory/diabetes_pca_plot.png` - Diabetes PCA (no clear structure)
+- `output/diabetes_exploratory/dataset_comparison.png` - Statistical comparison showing RNA-seq had better structure
+
+**Analysis Focus Decision:**
+Based on the evidence-based evaluation, all subsequent analysis focuses exclusively on the RNA-seq dataset. The RNA-seq dataset demonstrated clear population structure (70.7% PC1 variance) and promising patterns for detailed investigation, while the diabetes dataset did not exhibit the same level of structured patterns that would enable population-level analysis.
+
+---
+
+### Step 2: RNA-seq Analysis - Hypothesis Formation
+
+**Note:** All analysis from this point forward focuses exclusively on the RNA-seq dataset.
 
 **Observation:** Two populations visible in PCA space, but not clearly explained by compound categories alone.
 
@@ -49,7 +82,7 @@ PCA revealed clear separation into two clusters along PC1 (25.0% variance explai
 
 **Reasoning:** ADCs and free drugs contain cytotoxic payloads (exatecan, MMAE) that should induce cellular stress responses. Skin organoids would likely respond with epithelial activation/repair pathways.
 
-### Step 3: Population Assignment and Differential Expression
+### Step 3: RNA-seq Analysis - Population Assignment and Differential Expression
 
 **Approach:**
 - Assigned samples to populations based on PC1 sign (negative = Pop1, positive = Pop2)
@@ -65,7 +98,7 @@ All top genes were related to epithelial structure and barrier function, indicat
 
 **Key visualization:** `output/population_analysis/feature_importance/feature_importance_top_genes.png`
 
-### Step 4: Statistical Validation
+### Step 4: RNA-seq Analysis - Statistical Validation
 
 **Approach:**
 - Performed t-tests and Mann-Whitney U tests on top 1000 variable genes
@@ -81,7 +114,7 @@ The volcano plot clearly showed a large number of significantly upregulated gene
 
 **Key visualization:** `output/population_analysis/statistical_tests/volcano_plot.png`
 
-### Step 5: Pathway Enrichment Analysis
+### Step 5: RNA-seq Analysis - Pathway Enrichment Analysis
 
 **Approach:**
 - Selected top 500 upregulated genes in Population 2
@@ -103,7 +136,7 @@ This validated the hypothesis that Population 2 represents an activated stress r
 
 **Key visualization:** `output/pathway_enrichment/pathway_enrichment_top_pathways.png`
 
-### Step 6: Conclusion
+### Step 6: RNA-seq Analysis - Conclusion
 
 All validation approaches converged on the same biological interpretation:
 - **Statistical**: 970 genes significantly different
@@ -340,6 +373,10 @@ Visualization
 - `output/exploratory/pca_plot.png` - PCA showing two populations
 - `output/exploratory/correlation_heatmap.png` - Sample correlation matrix
 - `output/exploratory/compound_comparison_heatmap.png` - Expression across compounds
+
+**Dataset Comparison:**
+- `output/diabetes_exploratory/diabetes_pca_plot.png` - Diabetes PCA colored by readmission status and time in hospital
+- `output/diabetes_exploratory/dataset_comparison.png` - Statistical comparison between RNA-seq and diabetes datasets
 
 **Population Analysis:**
 - `output/population_analysis/differential_expression/population_separation_top_genes.png` - Top genes separating populations

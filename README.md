@@ -21,7 +21,7 @@ This project presents a comprehensive analysis of RNA-seq gene expression data f
 
 - **[FINAL_REPORT.pdf](FINAL_REPORT.pdf)** - Professional PDF report with all visualizations
 - **[FINAL_REPORT.md](FINAL_REPORT.md)** - Complete analysis report (markdown)
-- **9 publication-quality plots** - All analysis visualizations
+- **11 publication-quality plots** - All analysis visualizations (including evidence-based dataset comparison)
 - **Complete Hamilton DAG pipeline** - Reproducible analysis workflow
 
 ## 📈 Analysis Highlights
@@ -119,7 +119,8 @@ hamilton-interview/
 │   └── IDS_mapping.csv
 │
 ├── output/                      # Analysis results
-│   ├── exploratory/           # Exploratory plots
+│   ├── exploratory/           # RNA-seq exploratory plots
+│   ├── diabetes_exploratory/  # Diabetes dataset comparison plots
 │   ├── population_analysis/   # Population analysis results
 │   ├── pathway_enrichment/    # Pathway enrichment results
 │   ├── visualizations/        # Summary visualizations
@@ -169,8 +170,13 @@ def log_transformed_expression(raw_gene_counts: pd.DataFrame) -> pd.DataFrame:
 
 ## 📊 Results Summary
 
+### Dataset Evaluation
+- **RNA-seq**: Clear structure (70.7% PC1 variance) - selected for detailed analysis
+- **Diabetes**: Diffuse structure (14.1% PC1 variance) - no clear patterns for population analysis
+- **Evidence-based decision**: Statistical comparison justified focusing on RNA-seq
+
 ### Population Separation
-- Clear separation along PC1 (25.0% variance explained)
+- Clear separation along PC1 (25.0% variance explained, 70.7% total PC1 variance)
 - Two distinct groups: Controls/Dexamethasone vs. ADCs/Free drugs
 
 ### Top Separating Genes

@@ -1,4 +1,4 @@
-# Hamilton Interview Exercise: RNA-seq Drug Screening Analysis
+# Hamilton  : RNA-seq Drug Screening Analysis
 
 [![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
 [![Hamilton](https://img.shields.io/badge/Hamilton-DAG%20Framework-green.svg)](https://github.com/dagworks-inc/hamilton)
